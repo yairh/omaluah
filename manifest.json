@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "id": "yairh.hebrew-calendar",
+  "name": "Hebrew Calendar",
+  "version": "0.1.0",
+  "author": "yairhochner",
+  "description": "Hebrew date bar widget",
+  "kinds": ["bar-widget"],
+  "entryPoints": { "barWidget": "BarWidget.qml" },
+  "barWidget": {
+    "displayName": "Hebrew Calendar",
+    "category": "Time",
+    "allowMultiple": false,
+    "defaultSection": "center"
+  }
+}
