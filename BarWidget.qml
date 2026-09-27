@@ -7,7 +7,7 @@ import qs.Ui
 BarWidget {
 	id: root
 	moduleName: "yairh.omaluah"
-	implicitWidth: label.implicitWidth
+	implicitWidth: button.implicitWidth
 	implicitHeight: barSize
 
 	property string hebrewDate: ""
@@ -26,16 +26,6 @@ BarWidget {
 		}
 	}
 
-	Text {
-		id: label
-		text: root.hebrewDate || "שלום"
-		anchors.verticalCenter: parent.verticalCenter
-		anchors.horizontalCenter: parent.horizontalCenter
-		color: root.bar ? root.bar.barForeground : Color.foreground
-		font.pixelSize: Style.font.bodySmall
-		font.family: root.bar ? root.bar.fontFamily : Style.font.family
-	}
-
   function msToMidnight() {
     var next = new Date(); next.setHours(24, 0, 1, 0)
     return next.getTime() - Date.now()
@@ -49,4 +39,58 @@ BarWidget {
     triggeredOnStart: true
     onTriggered: { refreshTimer.interval = root.msToMidnight(); if (!todayProc.running) todayProc.running = true }
   }
+
+  // ---- Calendar popup. Shape contract for shell.summon/hide/toggle
+  //      routing: Bar.findPanelWidget requires open/close/opened on the
+  //      bar-widget root.
+  readonly property bool opened: panelLoader.item ? panelLoader.item.opened === true : false
+
+  function open() {
+    if (panelLoader.item) panelLoader.item.open()
+  }
+
+  function close() {
+    if (panelLoader.item) panelLoader.item.close()
+  }
+
+  function togglePanel() {
+    if (panelLoader.item) panelLoader.item.toggle()
+  }
+
+  function injectPanel() {
+    var target = panelLoader.item
+    if (!target) return
+    if ("bar" in target) target.bar = root.bar
+    if ("settings" in target) target.settings = root.settings
+    if ("anchorItem" in target) target.anchorItem = button
+    if ("hostWidget" in target) target.hostWidget = root
+  }
+
+  Loader {
+    id: panelLoader
+    active: true
+    source: Qt.resolvedUrl("Panel.qml")
+    visible: false
+    onLoaded: {
+      root.injectPanel()
+      Qt.callLater(root.injectPanel)
+    }
+  }
+
+  onBarChanged: injectPanel()
+  onSettingsChanged: injectPanel()
+
+  WidgetButton {
+    id: button
+    anchors.fill: parent
+    bar: root.bar
+		text: root.hebrewDate || "שלום"
+		fontSize: Style.font.bodySmall
+    horizontalMargin: 8.75
+    verticalPadding: 8.75
+
+    onPressed: function(b) {
+      root.togglePanel()
+    }
+	}
 }
