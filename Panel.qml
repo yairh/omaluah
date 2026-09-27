@@ -55,7 +55,7 @@ Panel {
     bar: root.bar
     open: root.opened
     focusTarget: keyCatcher
-    contentWidth: panel.fittedContentWidth(Style.space(560))
+    contentWidth: panel.fittedContentWidth(Style.space(360))
     contentHeight: panel.fittedContentHeight(body.implicitHeight)
 
 			PanelKeyCatcher {
@@ -67,12 +67,14 @@ Panel {
 					anchors.left: parent.left
 					anchors.right: parent.right
 					anchors.top: parent.top
+					anchors.verticalCenter: parent.verticalCenter
 					spacing: Style.space(10)
 
 					Text {
 						id: label
 						text: hostWidget.hebrewDate || "שלום"
 						width: parent.width
+						horizontalAlignment: Text.AlignHCenter
 						color: root.bar ? root.bar.barForeground : Color.foreground
 						font.pixelSize: Style.font.bodySmall
 						font.family: root.bar ? root.bar.fontFamily : Style.font.family
