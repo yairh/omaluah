@@ -66,7 +66,6 @@ Panel {
 					id: body
 					anchors.left: parent.left
 					anchors.right: parent.right
-					anchors.top: parent.top
 					anchors.verticalCenter: parent.verticalCenter
 					spacing: Style.space(10)
 
@@ -76,7 +75,8 @@ Panel {
 						width: parent.width
 						horizontalAlignment: Text.AlignHCenter
 						color: root.bar ? root.bar.barForeground : Color.foreground
-						font.pixelSize: Style.font.bodySmall
+						font.pixelSize: Style.font.title
+						font.bold: true
 						font.family: root.bar ? root.bar.fontFamily : Style.font.family
 					}
 				}
