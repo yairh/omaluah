@@ -115,6 +115,15 @@ func MonthGrid(year int, month time.Month, il bool) ([]Day, error) {
 func HebDay(greg time.Time) Day {
 	hd := hdate.FromGregorian(greg.Year(), greg.Month(), greg.Day())
 	dateStr := greg.Format(layout)
+	holidays := []Holiday{}
+	for _, el := range hebcal.GetHolidaysOnDate(hd, true) {
+		holidays = append(holidays, Holiday{
+			Title:       el.Render("en"),
+			HebrewTitle: el.Render("he"),
+			Categories:  el.GetCategories(),
+		})
+	}
+
 	return Day{
 		Year:        greg.Year(),
 		Month:       int(greg.Month()),
@@ -125,6 +134,6 @@ func HebDay(greg time.Time) Day {
 		HebrewMonth: hd.MonthName("en"),
 		HebrewDay:   hd.Day(),
 		HebrewDate:  hd.String(),
+		Holidays:    holidays,
 	}
 }
-
