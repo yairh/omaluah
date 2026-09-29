@@ -54,7 +54,7 @@ BarWidget {
     repeat: true
     running: true
     triggeredOnStart: true
-    onTriggered: { refreshTimer.interval = root.msToMidnight(); if (!todayProc.running) todayProc.running = true }
+    onTriggered: { refreshTimer.interval = root.msToMidnight(); root.refresh() }
   }
 
   // ---- Calendar popup. Shape contract for shell.summon/hide/toggle
