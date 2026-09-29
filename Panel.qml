@@ -79,6 +79,18 @@ Panel {
 						font.bold: true
 						font.family: root.bar ? root.bar.fontFamily : Style.font.family
 					}
+
+					Text {
+						id: sublabel
+						visible: text.length > 0
+						text: hostWidget.holiday 
+						width: parent.width
+						horizontalAlignment: Text.AlignHCenter
+						color: root.bar ? root.bar.barForeground : Color.foreground
+						font.pixelSize: Style.font.bodySmall
+						font.family: root.bar ? root.bar.fontFamily : Style.font.family
+						elide: Text.ElideRight
+					}
 				}
 			}
 		}

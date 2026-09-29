@@ -11,6 +11,22 @@ BarWidget {
 	implicitHeight: barSize
 
 	property string hebrewDate: ""
+	property string holiday: ""
+
+	function getHolidays(list) {
+		if (!Array.isArray(list) || list.length === 0) { return }
+		var titles = []
+		for (var i = 0; i < list.length; i++) 
+		if (list[i].title) {
+			titles.push(String(list[i].title)) 
+			titles.push(String(list[i].hebrewTitle))
+		}
+		return titles.join(" | ")
+	}
+
+	function refresh() {
+		if (!todayProc.running) todayProc.running = true
+	}
 
 	Process {
 		id: todayProc
@@ -21,6 +37,7 @@ BarWidget {
 				try {
 					var day = JSON.parse(String(text || ""))
 					root.hebrewDate = day ? day.hebrewDate : ""
+					root.holiday = day ? root.getHolidays(day.holidays) : ""
 				} catch (e) {}
 			}
 		}
